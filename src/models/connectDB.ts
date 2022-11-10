@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
+import mongoose, {Mongoose} from 'mongoose';
 
-export const connectDB = async () => {
-    return await mongoose.connect(String(process.env.DB));
+export const connectDB = ():Promise<Mongoose> => {
+    return mongoose.connect(String(process.env.DATABASE));
 }
