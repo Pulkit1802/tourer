@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
 import {UserInterface} from "../models/userModels/userInterface";
 import {findAllUsers, findUserById, createNewUser, deleteUserByID} from "../services/userServices";
+import {sendResponse} from "../utils/response";
 import logger from "../utils/logger";
 
 const getAllUsers = async (req: Request, res: Response):Promise<void> => {
@@ -8,20 +9,13 @@ const getAllUsers = async (req: Request, res: Response):Promise<void> => {
         const users: UserInterface[] = await findAllUsers();
 
         if (users.length)
-            res.status(200).json({
-                users: users,
-            });
-        else {
-            res.status(200).json({
-                message: 'No user exist as of now',
-            })
-        }
+            sendResponse(res, 200, users, 'All Users');
+        else
+            sendResponse(res, 200, [], 'No Users Found');
 
     } catch (e) {
         logger.error(e);
-        res.status(404).json({
-            message: 'Some error occurred on Server Side',
-        })
+        sendResponse(res, 500, [], 'Some error occurred on Server Side');
     }
 }
 
@@ -30,20 +24,14 @@ const getSingleUser = async (req: Request, res: Response):Promise<void> => {
         const user: UserInterface | null = await findUserById(req.params.id);
 
         if (user)
-            res.status(200).json({
-                users: user,
-            });
-        else {
-            res.status(200).json({
-                message: 'No such user exist',
-            })
-        }
+            sendResponse(res, 200, user, 'User Found');
+        else
+            sendResponse(res, 404, [], 'No such user exist');
+
 
     } catch (e) {
         logger.error(e);
-        res.status(404).json({
-            message: 'Some error occurred on Server Side',
-        })
+        sendResponse(res, 500, [], 'Some error occurred on Server Side');
     }
 }
 
@@ -53,21 +41,15 @@ const createUser = async (req: Request, res: Response):Promise<void> => {
 
         if (newUser) {
             delete newUser.password;
-            res.status(200).json({
-                users: newUser,
-            });
+            sendResponse(res, 201, newUser, 'User Created');
         }
-        else {
-            res.status(200).json({
-                message: 'User with this mail already exist',
-            })
-        }
+        else
+            sendResponse(res, 409, [], 'Could not create user');
+
 
     } catch (e) {
         logger.error(e);
-        res.status(404).json({
-            message: 'Some error occurred on Server Side',
-        })
+        sendResponse(res, 500, [], 'Some error occurred on Server Side');
     }
 }
 
@@ -76,20 +58,13 @@ const deleteUser = async (req: Request, res: Response) => {
         const user: UserInterface | null = await deleteUserByID(req.params.id);
 
         if (user)
-            res.status(200).json({
-                users: user,
-            });
-        else {
-            res.status(200).json({
-                message: 'No such user exist',
-            })
-        }
+            sendResponse(res, 200, user, 'User Deleted');
+        else
+            sendResponse(res, 404, [], 'No such user exist');
 
     } catch (e) {
         logger.error(e);
-        res.status(404).json({
-            message: 'Some error occurred on Server Side',
-        })
+        sendResponse(res, 500, [], 'Some error occurred on Server Side');
     }
 }
 
