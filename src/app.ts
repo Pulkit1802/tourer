@@ -1,14 +1,13 @@
-import express, {Express, Request, Response} from 'express'
+import express, {Express} from 'express';
+import {userRouter} from "./routes/userRoutes";
+const morgan = require('morgan');
 
 const app: Express = express();
 
+app.use((morgan('dev')));
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.status(200).json({
-        message: "Successfully connected to backend",
-    });
-})
+app.use('/api/v1/users', userRouter);
 
 export {
     app
