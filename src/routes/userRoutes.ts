@@ -1,16 +1,18 @@
-import {Router, Request, Response} from "express";
+import {Router} from "express";
+import {createUser, deleteUser, getAllUsers, getSingleUser} from "../controllers/userControllers";
 
 const router = Router();
 
 router
     .route('/')
-    .get((req:Request, res: Response) => {
-        res.send("Success");
-    });
+    .get(getAllUsers)
+    .post(createUser);
 
 
 router
-    .route('/:id');
+    .route('/:id')
+    .get(getSingleUser)
+    .delete(deleteUser);
 
 export {
     router as userRouter
