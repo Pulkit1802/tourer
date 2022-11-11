@@ -63,7 +63,7 @@ const deleteTour = async (req: Request, res: Response) => {
     }
 }
 
-const modifyTourController = async (req: Request, res: Response) => {
+const updateTour = async (req: Request, res: Response) => {
     try {
         const tour: ITours | null = await modifyTour(req.params.id, req.body);
 
@@ -77,4 +77,4 @@ const modifyTourController = async (req: Request, res: Response) => {
     }
 }
 
-export {getAllTours, getSingleTour, createTour, deleteTour, modifyTourController};
+export {getAllTours, getSingleTour, createTour, deleteTour, updateTour};
