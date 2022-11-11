@@ -1,27 +1,23 @@
 type Location = {
-    lat: number;
-    long: number;
-}
-
-type Visitations = {
-    date: Date;
-    time: string;
-    day: number;
-    place: string;
-    coords: Location;
-}
+    id: string;
+    address: string;
+};
 
 export interface ITours {
     name: string;
     duration: number;
     maxGroupSize: number;
     activities: string[];
-    startLocation: string;
-    startCords: Location;
-    endLocation: string;
-    endCords: Location;
-    tripLocations: Visitations[];
+    startLocation: Location;
+    ratingsAverage: number;
+    ratingsQuantity: number;
+    images: string[];
+    guides: string[];
+    endLocation: Location;
+    tripLocations: string[];
     price: number;
     startDates: Date[];
     description: string;
+    summary: string;
+    imageCover: string;
 }

@@ -20,49 +20,17 @@ const tourSchema = new Schema<ITours>({
         required: [true, "A tour must have activities"],
     },
     startLocation: {
-        type: String,
-        required: [true, "A tour must have a start location"],
+        id: String,
+        address: String,
     },
-    startCords: {
-        lat: {
-            type: Number,
-            default: 0,
-        },
-        long: {
-            type: Number,
-            default: 0,
-        }
-    },
+
     endLocation: {
-        type: String,
-        required: [true, "A tour must have an end location"],
-    },
-    endCords: {
-        lat: {
-            type: Number,
-            default: 0,
-        },
-        long: {
-            type: Number,
-            default: 0,
-        }
+        id: String,
+        address: String,
     },
     tripLocations: {
-        type: [{
-            date: Date,
-            time: String,
-            day: Number,
-            place: String,
-            coords: {
-                lat: {
-                    type: Number,
-                },
-                long: {
-                    type: Number,
-                },
-            }
-        }],
-        required: false,
+        type: [String],
+        required: [true, "A tour must have trip locations"],
     },
     price: {
         type: Number,
@@ -76,6 +44,28 @@ const tourSchema = new Schema<ITours>({
     description: {
         type: String,
         required: [true, "A tour must have a description"],
+    },
+    summary: {
+        type: String,
+        required: [true, "A tour must have a summary"],
+    },
+    imageCover: {
+        type: String,
+        required: [true, "A tour must have a cover image"],
+    },
+    images: {
+        type: [String],
+        required: [true, "A tour must have images"],
+    },
+    ratingsAverage: {
+        type: Number,
+    },
+    ratingsQuantity: {
+        type: Number,
+    },
+    guides: {
+        type: [String],
+        required: [true, "A tour must have guides"],
     },
 });
 
