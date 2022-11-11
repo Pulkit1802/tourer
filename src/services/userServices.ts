@@ -38,9 +38,20 @@ const deleteUserByID = async (id: string): Promise<UserInterface | null> => {
     }
 }
 
+const modifyUser = async (id: string, user: {}): Promise<UserInterface | null> => {
+    try {
+        await User.findByIdAndUpdate(id, user, {password: 0});
+        return await User.findById(id, {password: 0});
+    } catch (e) {
+        logger.error(e);
+        return null;
+    }
+}
+
 export {
     findAllUsers,
     findUserById,
     createNewUser,
-    deleteUserByID
+    deleteUserByID,
+    modifyUser
 }

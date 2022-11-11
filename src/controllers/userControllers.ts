@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import {UserInterface} from "../models/userModels/userInterface";
-import {findAllUsers, findUserById, createNewUser, deleteUserByID} from "../services/userServices";
+import {findAllUsers, findUserById, createNewUser, deleteUserByID, modifyUser} from "../services/userServices";
 import {sendResponse} from "../utils/response";
 import logger from "../utils/logger";
 
@@ -9,13 +9,13 @@ const getAllUsers = async (req: Request, res: Response):Promise<void> => {
         const users: UserInterface[] = await findAllUsers();
 
         if (users.length)
-            sendResponse(res, 200, users, 'All Users');
+            sendResponse(res, 200, {users}, 'All Users');
         else
-            sendResponse(res, 200, [], 'No Users Found');
+            sendResponse(res, 200, {}, 'No Users Found');
 
     } catch (e) {
         logger.error(e);
-        sendResponse(res, 500, [], 'Some error occurred on Server Side');
+        sendResponse(res, 500, {}, 'Some error occurred on Server Side');
     }
 }
 
@@ -24,14 +24,14 @@ const getSingleUser = async (req: Request, res: Response):Promise<void> => {
         const user: UserInterface | null = await findUserById(req.params.id);
 
         if (user)
-            sendResponse(res, 200, user, 'User Found');
+            sendResponse(res, 200, {user}, 'User Found');
         else
-            sendResponse(res, 404, [], 'No such user exist');
+            sendResponse(res, 404, {}, 'No such user exist');
 
 
     } catch (e) {
         logger.error(e);
-        sendResponse(res, 500, [], 'Some error occurred on Server Side');
+        sendResponse(res, 500, {}, 'Some error occurred on Server Side');
     }
 }
 
@@ -41,15 +41,15 @@ const createUser = async (req: Request, res: Response):Promise<void> => {
 
         if (newUser) {
             delete newUser.password;
-            sendResponse(res, 201, newUser, 'User Created');
+            sendResponse(res, 201, {newUser}, 'User Created');
         }
         else
-            sendResponse(res, 409, [], 'Could not create user');
+            sendResponse(res, 409, {}, 'Could not create user');
 
 
     } catch (e) {
         logger.error(e);
-        sendResponse(res, 500, [], 'Some error occurred on Server Side');
+        sendResponse(res, 500, {}, 'Some error occurred on Server Side');
     }
 }
 
@@ -58,13 +58,28 @@ const deleteUser = async (req: Request, res: Response) => {
         const user: UserInterface | null = await deleteUserByID(req.params.id);
 
         if (user)
-            sendResponse(res, 200, user, 'User Deleted');
+            sendResponse(res, 200, {user}, 'User Deleted');
         else
-            sendResponse(res, 404, [], 'No such user exist');
+            sendResponse(res, 404, {}, 'No such user exist');
 
     } catch (e) {
         logger.error(e);
-        sendResponse(res, 500, [], 'Some error occurred on Server Side');
+        sendResponse(res, 500, {}, 'Some error occurred on Server Side');
+    }
+}
+
+const updateUser = async (req: Request, res: Response):Promise<void> => {
+    try {
+        const user: UserInterface | null = await modifyUser(String(req.params.id), req.body);
+
+        if (user)
+            sendResponse(res, 200, {user}, 'User Modified');
+        else
+            sendResponse(res, 404, {}, 'No such user exist');
+
+    } catch (e) {
+        logger.error(e);
+        sendResponse(res, 500, {}, 'Some error occurred on Server Side');
     }
 }
 
@@ -72,6 +87,7 @@ export {
     getAllUsers,
     getSingleUser,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser,
 }
 
