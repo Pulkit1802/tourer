@@ -1,6 +1,8 @@
 type Location = {
-    id: string;
+    name: string;
+    coordinates: [number, number];
     address: string;
+    day?: number;
 };
 
 export interface ITours {
@@ -13,8 +15,7 @@ export interface ITours {
     ratingsQuantity: number;
     images: string[];
     guides: string[];
-    endLocation: Location;
-    tripLocations: string[];
+    tripLocations?: Location[];
     price: number;
     startDates: Date[];
     description: string;

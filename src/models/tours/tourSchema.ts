@@ -19,28 +19,38 @@ const tourSchema = new Schema<ITours>({
         type: [String],
         required: [true, "A tour must have activities"],
     },
+
     startLocation: {
-        id: String,
-        address: String,
+        type: {
+            name: String,
+            coordinates: [Number],
+            address: String,
+        },
+        required: [true, "A tour must have a start location"],
     },
 
-    endLocation: {
-        id: String,
-        address: String,
-    },
     tripLocations: {
-        type: [String],
-        required: [true, "A tour must have trip locations"],
+        type: [
+            {
+                name: String,
+                coordinates: [Number],
+                day: Number,
+                address: String,
+            },
+        ],
     },
+
     price: {
         type: Number,
         required: [true, "A tour must have a price"],
         default: 0,
     },
+
     startDates: {
         type: [Date],
         required: [true, "A tour must have start dates"],
     },
+
     description: {
         type: String,
         required: [true, "A tour must have a description"],
