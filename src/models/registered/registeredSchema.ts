@@ -20,3 +20,7 @@ const registeredSchema = new Schema<IRegistered>({
         type: String,
     }
 });
+
+const registeredTours = model('registered', registeredSchema);
+
+export default registeredTours;
