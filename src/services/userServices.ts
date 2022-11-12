@@ -18,7 +18,7 @@ const findAllUsers = async (filter: any): Promise<UserInterface[]> => {
         if (filter.page && filter.limit)
             user = paginate(filter.page, filter.limit, user);
 
-        return await user
+        return await user;
     } catch (e) {
         logger.error(e);
         return [];
