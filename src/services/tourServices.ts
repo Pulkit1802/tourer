@@ -1,10 +1,24 @@
 import {Tour} from "../models/tours/tourSchema";
 import {ITours} from "../models/tours/toursInterface";
+import {createQuery} from "./queryCreator";
 import logger from "../utils/logger";
+import {paginate} from "./pagination";
 
-const findAllTours = async (filter:Object = {}): Promise<ITours[]> => {
+const findAllTours = async (filter:any): Promise<ITours[]> => {
     try {
-        return await Tour.find(filter);
+
+        let query = createQuery(filter);
+
+        let tour = Tour.find(query);
+
+        if(filter.sort)
+            tour.sort(filter.sort);
+
+        if(filter.page && filter.limit)
+            tour = paginate(filter.page, filter.limit, tour);
+
+        return await tour;
+
     } catch (e) {
         logger.error(e);
         return [];

@@ -1,10 +1,24 @@
 import {User} from "../models/userModels/userSchema";
 import {UserInterface} from "../models/userModels/userInterface";
 import logger from "../utils/logger";
+import {createQuery} from "./queryCreator";
+import {paginate} from "./pagination";
 
-const findAllUsers = async (filter:Object = {}): Promise<UserInterface[]> => {
+
+const findAllUsers = async (filter: any): Promise<UserInterface[]> => {
     try {
-        return await User.find(filter, {password: 0});
+
+        let query = createQuery(filter);
+
+        let user = User.find(query);
+
+        if (filter.sort)
+            user.sort(filter.sort);
+
+        if (filter.page && filter.limit)
+            user = paginate(filter.page, filter.limit, user);
+
+        return await user
     } catch (e) {
         logger.error(e);
         return [];

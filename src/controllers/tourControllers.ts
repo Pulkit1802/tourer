@@ -7,7 +7,7 @@ import logger from "../utils/logger";
 
 const getAllTours = async (req: Request, res: Response):Promise<void> => {
     try {
-        const tours: ITours[] = await findAllTours();
+        const tours: ITours[] = await findAllTours(req.query);
 
         if (tours.length)
             sendResponse(res, 200, {tours}, 'All Tours');

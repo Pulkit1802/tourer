@@ -6,7 +6,7 @@ import logger from "../utils/logger";
 
 const getAllUsers = async (req: Request, res: Response):Promise<void> => {
     try {
-        const users: UserInterface[] = await findAllUsers();
+        const users: UserInterface[] = await findAllUsers(req.query);
 
         if (users.length)
             sendResponse(res, 200, {users}, 'All Users');
