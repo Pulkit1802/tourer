@@ -1,20 +1,18 @@
 import {Router} from "express";
-// import {createTour, deleteTour, getAllTours, getSingleTour, updateTour} from "../controllers/tourControllers";
-import {tourControllers} from "../controllers/tourControllers";
+import {tourController} from "../controllers";
 
 const router = Router();
 
 router
     .route('/')
-    // .get(getAllTours);
-    .get(tourControllers.getAll);
-    // .post(createTour);
+    .get(tourController.getAll)
+    .post(tourController.create);
 
-// router
-//     .route('/:id')
-//     .get(getSingleTour)
-//     .delete(deleteTour)
-//     .patch(updateTour);
+router
+    .route('/:id')
+    .get(tourController.getOne)
+    .delete(tourController.delete)
+    .patch(tourController.modify);
 
 export {
     router as tourRouter
