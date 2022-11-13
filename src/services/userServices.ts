@@ -1,8 +1,8 @@
-import {User} from "../models/userModels/userSchema";
-import {UserInterface} from "../models/userModels/userInterface";
+import {User} from "../models/user/userSchema";
+import {UserInterface} from "../models/user/userInterface";
 import logger from "../utils/logger";
-import {createQuery} from "./queryCreator";
-import {paginate} from "./pagination";
+import {createQuery} from "./queries/queryCreator";
+import {paginate} from "./queries/pagination";
 
 
 const findAllUsers = async (filter: any): Promise<UserInterface[]> => {

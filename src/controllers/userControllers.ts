@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {UserInterface} from "../models/userModels/userInterface";
+import {UserInterface} from "../models/user/userInterface";
 import {findAllUsers, findUserById, createNewUser, deleteUserByID, modifyUser} from "../services/userServices";
 import {sendResponse} from "../utils/response";
 import logger from "../utils/logger";

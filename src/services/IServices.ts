@@ -1,5 +1,5 @@
 import {ITours} from "../models/tours/toursInterface";
-import {UserInterface} from "../models/userModels/userInterface";
+import {UserInterface} from "../models/user/userInterface";
 
 type serviceTypes = ITours|UserInterface;
 type serviceTypesList = ITours[]|UserInterface[];

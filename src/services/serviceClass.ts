@@ -1,8 +1,8 @@
 import {Model} from "mongoose";
 import logger from "../utils/logger";
-import {createQuery} from "./queryCreator";
-import {paginate} from "./pagination";
-import {UserInterface} from "../models/userModels/userInterface";
+import {createQuery} from "./queries/queryCreator";
+import {paginate} from "./queries/pagination";
+import {UserInterface} from "../models/user/userInterface";
 import {ITours} from "../models/tours/toursInterface";
 import {IServices} from "./IServices";
 

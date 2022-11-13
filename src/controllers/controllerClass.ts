@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {UserInterface} from "../models/userModels/userInterface";
+import {UserInterface} from "../models/user/userInterface";
 import {ITours} from "../models/tours/toursInterface";
 import {sendResponse} from "../utils/response";
 import logger from "../utils/logger";
@@ -15,10 +15,13 @@ export class Controller implements IControllers{
     constructor(service:Services) {
         this.service = service;
         this.getAll = this.getAll.bind(this);
+        this.getOne = this.getOne.bind(this);
+        this.delete = this.getOne.bind(this);
+        this.modify = this.getOne.bind(this);
+        this.create = this.getOne.bind(this);
     }
 
      async getAll(req:Request, res:Response): Promise<void> {
-
         try {
             const result: serviceTypes[] = await this.service.getAll(req.query);
             if (result.length)
@@ -29,6 +32,63 @@ export class Controller implements IControllers{
         } catch (e) {
             logger.error(e);
             sendResponse(res, 500, {}, "Server Error")
+        }
+    }
+
+    async create(req: Request, res: Response): Promise<void> {
+        try {
+            const result: serviceTypesNull = await this.service.create(req.body);
+            if (result)
+                sendResponse(res, 201, {result}, 'Created');
+            else
+                sendResponse(res, 402, {}, 'Failed to create');
+        } catch (e) {
+            logger.error(e);
+            sendResponse(res, 500, {}, 'Server Error')
+        }
+    }
+
+    async delete(req: Request, res: Response): Promise<void> {
+        try {
+            const result: number = await this.service.delete(req.params.id);
+            if (result===1)
+                sendResponse(res, 202, {result}, 'Deleted Successfully');
+            else if (result===0)
+                sendResponse(res, 402, {}, 'No entry with id found');
+            else
+                sendResponse(res, 500, {}, 'Server Error');
+
+        } catch (e) {
+            logger.error(e);
+            sendResponse(res, 500, {}, 'Server Error')
+        }
+    }
+
+    async getOne(req: Request, res: Response): Promise<void> {
+        try {
+            const result: serviceTypesNull = await this.service.getOne(req.params.id);
+            if (result)
+                sendResponse(res, 202, {result}, '');
+            else
+                sendResponse(res, 500, {}, 'Server Entry with this id');
+
+        } catch (e) {
+            logger.error(e);
+            sendResponse(res, 500, {}, 'Server Error')
+        }
+    }
+
+    async modify(req: Request, res: Response): Promise<void> {
+        try {
+            const result: serviceTypesNull = await this.service.modify(req.params.id, req.body);
+            if (result)
+                sendResponse(res, 202, {result}, '');
+            else
+                sendResponse(res, 500, {}, 'Server Entry with this id');
+
+        } catch (e) {
+            logger.error(e);
+            sendResponse(res, 500, {}, 'Server Error')
         }
     }
 
