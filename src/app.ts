@@ -1,6 +1,5 @@
 import express, {Express} from 'express';
-import {userRouter} from './routes/userRoutes';
-import {tourRouter} from './routes/tourRoutes';
+import {tourRouter, userRouter, tourRegistrationRouter} from "./routes";
 
 const morgan = require('morgan');
 
@@ -11,6 +10,7 @@ app.use(express.json());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/tours/registered', tourRegistrationRouter);
 
 export {
     app

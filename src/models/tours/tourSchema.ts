@@ -1,7 +1,7 @@
 import {Schema, model} from "mongoose";
 import {ITours} from "./toursInterface";
 
-const tourSchema = new Schema<ITours>({
+export const tourSchema = new Schema<ITours>({
     name: {
         type: String,
         required: [true, "A tour must have a name"],
@@ -78,9 +78,3 @@ const tourSchema = new Schema<ITours>({
         required: [true, "A tour must have guides"],
     },
 });
-
-const Tour = model("tours", tourSchema);
-
-export {
-    Tour,
-}

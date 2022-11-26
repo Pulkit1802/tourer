@@ -1,13 +1,9 @@
 import {Request, Response} from "express";
-import {UserInterface} from "../models/user/userInterface";
-import {ITours} from "../models/tours/toursInterface";
+import {serviceTypes, serviceTypeNull} from "../services/serviceType";
 import {sendResponse} from "../utils/response";
 import logger from "../utils/logger";
 import {Services} from "../services/serviceClass";
 import {IControllers} from "./controllerInterface";
-
-type serviceTypes = ITours | UserInterface;
-type serviceTypesNull = serviceTypes | null;
 
 export class Controller implements IControllers{
     service: Services;
@@ -37,7 +33,7 @@ export class Controller implements IControllers{
 
     async create(req: Request, res: Response): Promise<void> {
         try {
-            const result: serviceTypesNull = await this.service.create(req.body);
+            const result: serviceTypeNull = await this.service.create(req.body);
             if (result)
                 sendResponse(res, 201, {result}, 'Created');
             else
@@ -66,7 +62,7 @@ export class Controller implements IControllers{
 
     async getOne(req: Request, res: Response): Promise<void> {
         try {
-            const result: serviceTypesNull = await this.service.getOne(req.params.id);
+            const result: serviceTypeNull = await this.service.getOne(req.params.id);
             if (result)
                 sendResponse(res, 202, {result}, '');
             else
@@ -80,7 +76,7 @@ export class Controller implements IControllers{
 
     async modify(req: Request, res: Response): Promise<void> {
         try {
-            const result: serviceTypesNull = await this.service.modify(req.params.id, req.body);
+            const result: serviceTypeNull = await this.service.modify(req.params.id, req.body);
             if (result)
                 sendResponse(res, 202, {result}, '');
             else

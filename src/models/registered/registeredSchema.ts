@@ -1,14 +1,14 @@
 import {Schema, model} from 'mongoose';
 import {IRegistered} from "./registeredInterface";
 
-const registeredSchema = new Schema<IRegistered>({
+export const registeredSchema = new Schema<IRegistered>({
     tour: {
-        type: String,
+        type: Schema.Types.ObjectId,
         ref: 'Tour',
         required: true
     },
     user: {
-        type: String,
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
@@ -20,7 +20,3 @@ const registeredSchema = new Schema<IRegistered>({
         type: String,
     }
 });
-
-const registeredTours = model('registered', registeredSchema);
-
-export default registeredTours;

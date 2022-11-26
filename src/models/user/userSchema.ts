@@ -1,7 +1,7 @@
-import {Schema, model} from "mongoose";
+import {Schema} from "mongoose";
 import {UserInterface} from "./userInterface";
 
-const userSchema = new Schema<UserInterface>({
+export const userSchema = new Schema<UserInterface>({
     name: {
         type: String,
         required: [true, 'User name is required'],
@@ -30,6 +30,4 @@ const userSchema = new Schema<UserInterface>({
         type: String,
         required: [true, 'Password is required for user to exist'],
     },
-})
-
-export const User = model('users', userSchema);
+});

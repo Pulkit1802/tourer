@@ -2,34 +2,33 @@ import {Model} from "mongoose";
 import logger from "../utils/logger";
 import {createQuery} from "./queries/queryCreator";
 import {paginate} from "./queries/pagination";
-import {UserInterface} from "../models/user/userInterface";
-import {ITours} from "../models/tours/toursInterface";
+import {serviceTypes, serviceTypeNull, serviceTypeList} from "./serviceType";
 import {IServices} from "./IServices";
-
-type serviceTypes = ITours | UserInterface;
-type serviceTypeList = ITours[] | UserInterface[];
-type serviceTypeNull = serviceTypes | null;
 
 export class Services implements IServices {
     model: Model<any>;
+    ref: string[];
 
-    constructor(model: Model<any>) {
+    constructor(model: Model<any>, ...ref: string[]) {
         this.model = model;
+        this.ref = ref
     }
 
     async getAll(filter:any): Promise<serviceTypeList> {
         try {
 
             const query = createQuery(filter);
-            let result = this.model.find(query);
+            let results = this.model.find(query);
 
             if(filter.sort)
-                result.sort(filter.sort);
+                results.sort(filter.sort);
 
             if(filter.page && filter.limit)
-                paginate(filter.page, filter.limit, result);
+                paginate(filter.page, filter.limit, results);
 
-            return await result;
+            this.ref.forEach(r => query.populate(r));
+
+            return await results;
 
         } catch (e) {
             logger.error(e);

@@ -1,11 +1,12 @@
 import {Services} from "./serviceClass";
-import {Tour} from "../models/tours/tourSchema";
-import {User} from "../models/user/userSchema";
+import {Tour, User, RegisteredTours} from "../models";
 
 const tourServices:Services = new Services(Tour);
 const userServices:Services = new Services(User);
+const registeredServices:Services = new Services(RegisteredTours, 'user', 'tour');
 
 export {
     tourServices,
-    userServices
+    userServices,
+    registeredServices
 }

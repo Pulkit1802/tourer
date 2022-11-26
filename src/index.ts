@@ -1,4 +1,4 @@
-import {connectDB} from "./models/connectDB";
+import {connectDB} from "./utils/connectDB";
 import logger from "./utils/logger";
 const dotEnv = require('dotenv');
 
@@ -11,7 +11,7 @@ connectDB()
         logger.info('Successfully connected to DB');
     })
     .catch((e) => {
-        logger.error(`Failed to connect to DB`);
+        logger.error(`Failed to connect to DB`, e);
     });
 
 const port: number = Number(process.env.PORT) || 5000;
