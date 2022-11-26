@@ -12,9 +12,9 @@ export class Controller implements IControllers{
         this.service = service;
         this.getAll = this.getAll.bind(this);
         this.getOne = this.getOne.bind(this);
-        this.delete = this.getOne.bind(this);
-        this.modify = this.getOne.bind(this);
-        this.create = this.getOne.bind(this);
+        this.delete = this.delete.bind(this);
+        this.modify = this.modify.bind(this);
+        this.create = this.create.bind(this);
     }
 
      async getAll(req:Request, res:Response): Promise<void> {
@@ -31,9 +31,24 @@ export class Controller implements IControllers{
         }
     }
 
+    async getOne(req: Request, res: Response): Promise<void> {
+        try {
+            const result: serviceTypeNull = await this.service.getOne(req.params.id);
+            if (result)
+                sendResponse(res, 202, {result}, '');
+            else
+                sendResponse(res, 500, {}, 'No entry with this id');
+
+        } catch (e) {
+            logger.error(e);
+            sendResponse(res, 500, {}, 'Server Error')
+        }
+    }
+
     async create(req: Request, res: Response): Promise<void> {
         try {
             const result: serviceTypeNull = await this.service.create(req.body);
+
             if (result)
                 sendResponse(res, 201, {result}, 'Created');
             else
@@ -60,19 +75,6 @@ export class Controller implements IControllers{
         }
     }
 
-    async getOne(req: Request, res: Response): Promise<void> {
-        try {
-            const result: serviceTypeNull = await this.service.getOne(req.params.id);
-            if (result)
-                sendResponse(res, 202, {result}, '');
-            else
-                sendResponse(res, 500, {}, 'Server Entry with this id');
-
-        } catch (e) {
-            logger.error(e);
-            sendResponse(res, 500, {}, 'Server Error')
-        }
-    }
 
     async modify(req: Request, res: Response): Promise<void> {
         try {
@@ -80,7 +82,7 @@ export class Controller implements IControllers{
             if (result)
                 sendResponse(res, 202, {result}, '');
             else
-                sendResponse(res, 500, {}, 'Server Entry with this id');
+                sendResponse(res, 500, {}, 'No entry with this id');
 
         } catch (e) {
             logger.error(e);

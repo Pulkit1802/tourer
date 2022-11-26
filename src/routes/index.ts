@@ -1,9 +1,9 @@
-import {userController, tourController, tourRegistationController} from "../controllers";
-import {RouterClass} from "./routeClass";
+import {userController, tourController, tourRegistrationController} from "../controllers";
+import {createRouter} from "./Router";
 
-const tourRouter = new RouterClass(tourController).createRouter();
-const userRouter = new RouterClass(userController).createRouter();
-const tourRegistrationRouter = new RouterClass(tourRegistationController).createRouter();
+const tourRouter = createRouter(tourController);
+const userRouter = createRouter(userController);
+const tourRegistrationRouter = createRouter(tourRegistrationController);
 
 export {
     tourRouter,

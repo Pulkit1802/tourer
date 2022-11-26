@@ -7,9 +7,9 @@ import {IServices} from "./IServices";
 
 export class Services implements IServices {
     model: Model<any>;
-    ref: string[];
+    ref: any;
 
-    constructor(model: Model<any>, ...ref: string[]) {
+    constructor(model: Model<any>, ...ref: any) {
         this.model = model;
         this.ref = ref
     }
@@ -26,13 +26,24 @@ export class Services implements IServices {
             if(filter.page && filter.limit)
                 paginate(filter.page, filter.limit, results);
 
-            this.ref.forEach(r => query.populate(r));
+            if(this.ref.length)
+                //@ts-ignore
+                this.ref.forEach(r => results.populate(r));
 
             return await results;
 
         } catch (e) {
             logger.error(e);
             return [];
+        }
+    }
+
+    async getOne(id: string): Promise<serviceTypeNull> {
+        try {
+            return await this.model.findById(id);
+        } catch (e) {
+            logger.error(e);
+            return null;
         }
     }
 
@@ -54,15 +65,6 @@ export class Services implements IServices {
         } catch (e) {
             logger.error(e);
             return -1;
-        }
-    }
-
-    async getOne(id: string): Promise<serviceTypeNull> {
-        try {
-            return await this.model.findById(id);
-        } catch (e) {
-            logger.error(e);
-            return null;
         }
     }
 
